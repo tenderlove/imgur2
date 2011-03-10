@@ -1,0 +1,6 @@
+#!/usr/local/bin/ruby19
+
+require 'imgur2'
+
+Imgur2.run ARGV
+

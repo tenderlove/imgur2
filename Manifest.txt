@@ -1,0 +1,7 @@
+.autotest
+CHANGELOG.rdoc
+Manifest.txt
+README.rdoc
+Rakefile
+bin/imgur2
+lib/imgur2.rb
