@@ -3,6 +3,8 @@
 require 'rubygems'
 require 'hoe'
 
+Hoe.plugin :git     # `gem install hoe-git`
+
 Hoe.spec 'imgur2' do
   developer('Aaron Patterson', 'aaron@tenderlovemaking.com')
   self.readme_file           = 'README.rdoc'
