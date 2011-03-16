@@ -9,7 +9,7 @@ require 'json'
 #     client.upload f
 #   }
 class Imgur2 < Struct.new(:key)
-  VERSION = '1.0.0'
+  VERSION = '1.1.0'
 
   def self.run argv
     client = Imgur2.new '65aea9a07b4f6110c90248ffa247d41a'
