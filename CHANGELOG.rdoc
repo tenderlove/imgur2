@@ -1,3 +1,9 @@
+=== 1.1.0 / 2011-03-16
+
+* 1 major enhancement
+
+  * Follow redirects until imgur returns the real image url.
+
 === 1.0.0 / 2011-03-10
 
 * 1 major enhancement

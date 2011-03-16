@@ -15,6 +15,7 @@ class Imgur2 < Struct.new(:key)
     client = Imgur2.new '65aea9a07b4f6110c90248ffa247d41a'
     fh     = argv[0] ? File.open(argv[0], 'rb') : $stdin
     link   = client.upload(fh)['upload']['links']['original']
+    link   = client.follow_redirect link
     client.paste link
     puts link
   ensure
@@ -31,6 +32,26 @@ class Imgur2 < Struct.new(:key)
                          'type'  => 'base64')
       http.request(post).body
     }
+  end
+
+  def follow_redirect url
+    follower = lambda do |uri, depth|
+      raise "too many redirects" if depth > 3
+
+      parsed  = URI.parse uri
+      resp = Net::HTTP.start(parsed.host) { |http|
+        head = Net::HTTP::Head.new parsed.path
+        http.request head
+      }
+
+      if Net::HTTPRedirection === resp
+        follower.call resp['Location'], depth + 1
+      else
+        uri
+      end
+    end
+
+    follower.call url, 0
   end
 
   ##
