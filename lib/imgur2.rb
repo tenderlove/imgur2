@@ -9,16 +9,33 @@ require 'json'
 #     client.upload f
 #   }
 class Imgur2 < Struct.new(:key)
-  VERSION = '1.0.0'
+  VERSION = '1.1.0'
 
   def self.run argv
     client = Imgur2.new '65aea9a07b4f6110c90248ffa247d41a'
-    fh     = argv[0] ? File.open(argv[0], 'rb') : $stdin
+    fh     = get_image argv[0]
     link   = client.upload(fh)['upload']['links']['original']
     client.paste link
     puts link
   ensure
-    fh.close
+    fh.close if fh
+  end
+
+  def self.get_image filename = nil
+    return open(filename, 'rb') if filename
+    begin
+      require 'pasteboard'
+      require 'stringio'
+
+      clipboard = Pasteboard.new
+
+      data = clipboard[0, Pasteboard::Type::JPEG]
+
+      return StringIO.new data if data
+    rescue LoadError
+    end
+
+    $stdin
   end
 
   def upload io
@@ -38,6 +55,18 @@ class Imgur2 < Struct.new(:key)
   # clipboard.
 
   def paste link
+    require 'pasteboard'
+
+    clipboard = Pasteboard.new
+
+    item = [
+      [Pasteboard::Type::URL,      link],
+      [Pasteboard::Type::URL_NAME, link],
+      [Pasteboard::Type::UTF8,     link],
+    ]
+
+    clipboard.put item
+  rescue LoadError
     clipboard = %w{
       /usr/bin/pbcopy
       /usr/bin/xclip
