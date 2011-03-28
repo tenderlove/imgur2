@@ -59,13 +59,7 @@ class Imgur2 < Struct.new(:key)
 
     clipboard = Pasteboard.new
 
-    item = [
-      [Pasteboard::Type::URL,      link],
-      [Pasteboard::Type::URL_NAME, link],
-      [Pasteboard::Type::UTF8,     link],
-    ]
-
-    clipboard.put item
+    clipboard.put_url link
   rescue LoadError
     clipboard = %w{
       /usr/bin/pbcopy
