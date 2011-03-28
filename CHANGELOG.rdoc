@@ -1,3 +1,9 @@
+=== 1.2.0 / 2001-03-28
+
+* 1 major enhancement
+  * imgur2 will now use pasteboard to pull JPEG data from the clipboard if it
+    is available.
+
 === 1.1.0 / 2011-03-16
 
 * 1 major enhancement
