@@ -16,10 +16,7 @@ class Imgur2 < Struct.new(:key)
     fh       = get_image argv[0]
     response = client.upload(fh)
 
-    if response.key? 'error'
-      $stderr.puts response['error']['message']
-      exit 1
-    end
+    abort response['error']['message'] if response.key? 'error'
 
     link     = response['upload']['links']['original']
     link     = client.follow_redirect link
