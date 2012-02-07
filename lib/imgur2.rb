@@ -9,13 +9,20 @@ require 'json'
 #     client.upload f
 #   }
 class Imgur2 < Struct.new(:key)
-  VERSION = '1.2.0'
+  VERSION = '1.2.1'
 
   def self.run argv
-    client = Imgur2.new '65aea9a07b4f6110c90248ffa247d41a'
-    fh     = get_image argv[0]
-    link   = client.upload(fh)['upload']['links']['original']
-    link   = client.follow_redirect link
+    client   = Imgur2.new '65aea9a07b4f6110c90248ffa247d41a'
+    fh       = get_image argv[0]
+    response = client.upload(fh)
+
+    if response.key? 'error'
+      $stderr.puts response['error']['message']
+      exit 1
+    end
+
+    link     = response['upload']['links']['original']
+    link     = client.follow_redirect link
     client.paste link
     puts link
   ensure

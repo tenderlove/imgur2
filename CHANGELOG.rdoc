@@ -1,4 +1,10 @@
-=== 1.2.0 / 2001-03-28
+=== 1.2.1 / 2012-02-07
+
+* 1 Bug fix
+
+  * Display error messages if there are any
+
+=== 1.2.0 / 2011-03-28
 
 * 1 major enhancement
   * imgur2 will now use pasteboard to pull JPEG data from the clipboard if it
